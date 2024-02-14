@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRAMBLED WORDS ADMIN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body onload="displayItem()">
+  <div class="container bg-light rounded  mb-3" style="height: 100vh;">
+    <div class="row mb-5"  > 
+      <div class="col-sm-6 pt-2 pb-2 mx-auto shadow-lg bg-dark rounded text-white text-center" style="margin-top: 1%;">
+        
+        <div class="row mb-2">   <h1 class="shadow fs-1 text-info"> ADMIN END</h1> <hr>   
+          <div class=" mx-auto"> <a class="" href="scrambleword.html"> <button class="col-10 btn btn-outline-light btn-lg">PLAY GAME</button></a>  </div> 
+          <!-- <div class="col-6"> <a href="scrambledwordadmin.html"> <button class="btn btn-outline-light btn-lg">ADMIN</button></a>  </div> -->
+        </div> <hr>
+
+        <div class="row text-center mt-3">
+           <div class="col-6 mb-4"> <input class="form-control " id="correct_word" placeholder=" correct word"> </div>
+           <div class="col-6 mb-4 "> <input class="form-control" id="scrambled_word" placeholder="scrambled word">  </div>
+            <button class=" mx-auto col-10 btn btn-lg btn-outline-info" onclick="save_correct_word()"> Save Word</button>
+            
+        </div>
+                <!-- <div>
+                  <iframe src="scrambleword.html" height="400" width="500" title="Admin" style="border: 2px solid greenyellow;">
+                  </iframe>
+                </div> -->
+      </div>       
+   </div>
+
+      <div class="row mb-2 " style=" height: 100vh; ;">
+        <div class="col-sm-12 mb-2">
+
+           <div class=" my-1 "> <button class="ms-4 col-10 btn btn-outline-dark btn-lg" onclick="displayItem()"> Check Saved Words </button> </div>
+           <div class="row mb-1" > 
+              <div class="col-lg-8 mx-auto  my-1"><input class="form-control col-5 text-danger" type="number" placeholder="Index of the word you want to Remove" id="removeWordd">  </div>
+              <div class=" col-8 mx-auto"> <button class=" mx-4 col-sm-10 btn  btn-danger" onclick="removeWord()"> Remove Word</button> </div>
+          </div>
+                <div class="row mx-auto" style="height: 100vh; overflow-y: scroll;">
+                  <div style="height: 100vh; width:100vw; overflow-y: scroll;" > <small style="height: 100vh; width:100vw; overflow-y: scroll;"><b> CORRECT WORDS________ SCRAMBLED WORDS</b> </small><span class="col-11 mx-auto" id="display_Words" style="height: 100vh; width:100vw; overflow-y: scroll;"> </span></div>
+                </div>
+        </div>
+        </div>
+  </div>
+
+    <script>
+      var myWord = []; let correct_word_o = ""; let correctWord ; let scrambledWord; let obj_of_Arr; let indexxx; let count =0; let content;
+      
+      function displayItem()
+        { if (localStorage.getItem('correct&scrambled'))
+        {myWord = JSON.parse(localStorage.getItem('correct&scrambled'))}
+        else{alert("No word in the Database")};   
+           content = ""; 
+            myWord.map(i =>{
+              content += `<div class="  text-info"> <table> <tr> <th> ${(count++)+1}.   ${i.correct} </th> <th>_____________________ ${i.scrambled} <th> </tr> <span >   <span> </table>`
+              document.getElementById('display_Words').innerHTML = content; })
+        }
+
+        function removeWord()
+      { count=-1;
+        if (localStorage.getItem('correct&scrambled'))
+        {myWord = JSON.parse(localStorage.getItem('correct&scrambled'))}
+        else{alert("No word in the Database")}; 
+        indexxx =  Number(removeWordd.value - 1);
+        myWord.splice(indexxx, 1 )
+        localStorage.setItem('correct&scrambled', JSON.stringify(myWord)); 
+        count++
+        displayItem();
+        removeWordd.value = "";  
+      } 
+
+      function save_correct_word()
+      {  count = -1
+         correctWord = correct_word.value.toLowerCase();
+         scrambledWord = scrambled_word.value.toLowerCase();
+        obj_of_Arr = {correct: correctWord, scrambled: scrambledWord};
+        myWord.push(obj_of_Arr);
+        localStorage.setItem('correct&scrambled', JSON.stringify(myWord));
+        alert("Correct Word:" +" "+ correctWord.toUpperCase() + " " + "&" + " " + "Scrambled Word:" + scrambledWord.toUpperCase() + " " + "has been saved")   
+        correct_word.value= ""; scrambled_word.value= " "; correct_word.focus();
+        count++
+        displayItem();
+      }
+      // myWord.map(i =>{
+      //           content += `<div class=" w-100 p-1 mb-1 text-info"> ${(count++)+1} - ${i.correct} <span > - ${i.scrambled} <span>`
+      //           document.getElementById('display_Words').innerHTML = content; })
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
